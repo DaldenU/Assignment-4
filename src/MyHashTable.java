@@ -26,12 +26,13 @@ public class MyHashTable<K, V> {
     }
 
     private int hash(K key) {
-        int hash = 0;
-        String strKey = key.toString();
+        String strKey = String.valueOf(key);
+        int sum = 0;
         for (int i = 0; i < strKey.length(); i++) {
-            hash = (hash * 31) + strKey.charAt(i);
+            sum += strKey.charAt(i);
         }
-        return hash % M;
+
+        return sum % M;
     }
 
     public void put(K key, V value) {
