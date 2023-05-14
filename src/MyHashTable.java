@@ -1,8 +1,10 @@
 public class MyHashTable<K, V> {
+
+    // Nested class for storing keys and values in linked list nodes
     private class HashNode<K, V> {
-        private K key;
-        private V value;
-        private HashNode<K, V> next;
+        private K key; // Key
+        private V value; // Value
+        private HashNode<K, V> next; // Reference to the next node in the linked list
 
         public HashNode(K key, V value) {
             this.key = key;
@@ -15,9 +17,9 @@ public class MyHashTable<K, V> {
         }
     }
 
-    private HashNode<K, V>[] chainArray;
-    private int M = 11;
-    private int size;
+    private HashNode<K, V>[] chainArray; // Array of linked lists (chains)
+    private int M = 11; // Initial size of the array
+    private int size; // Number of elements in the hash table
 
     public MyHashTable() {
         chainArray = new HashNode[M]; // standard constructor
@@ -30,6 +32,7 @@ public class MyHashTable<K, V> {
         size = 0;
     }
 
+    // Hash function that maps a key to an index in the array
     private int hash(K key) {
         String strKey = String.valueOf(key);
         int sum = 0;
@@ -40,6 +43,7 @@ public class MyHashTable<K, V> {
         return sum % M;
     }
 
+    // Inserts a key-value pair into the hash table
     public void put(K key, V value) {
         int index = hash(key);
         HashNode<K, V> node = new HashNode<K, V>(key, value);
@@ -70,6 +74,7 @@ public class MyHashTable<K, V> {
         }
     }
 
+    // Retrieves the value associated with the specified key
     public V get(K key) {
         int index = hash(key);
         if (chainArray[index] == null) {
@@ -89,6 +94,12 @@ public class MyHashTable<K, V> {
         return null;
     }
 
+    /**
+     * Removes the node with the given key and returns the associated value.
+     *
+     * @param key - the key to remove
+     * @return the value associated with the removed key, or null if the key was not found
+     */
     public V remove(K key) {
         int index = hash(key);
         // If the bucket at the hashed index is empty, the key is not in the map
@@ -120,6 +131,12 @@ public class MyHashTable<K, V> {
         }
     }
 
+    /**
+     * Checks whether the map contains a node with the given value.
+     *
+     * @param value - the value to search for
+     * @return true if a node with the given value is found, false otherwise
+     */
     public boolean contains(V value) {
         for (int i = 0; i < chainArray.length; i++) {
             if (chainArray[i] == null) {
@@ -141,6 +158,12 @@ public class MyHashTable<K, V> {
         return false;
     }
 
+    /**
+     * Returns the key associated with the given value.
+     *
+     * @param value - the value to search for
+     * @return the key associated with the given value, or null if the value was not found
+     */
     public K getKey(V value) {
         for (int i = 0; i < chainArray.length; i++) {
             if (chainArray[i] == null) {
