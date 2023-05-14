@@ -20,6 +20,8 @@ public class MyHashTable<K, V> {
     private int size;
 
     public MyHashTable() {
+        chainArray = new HashNode[M]; // standard constructor
+        size = 0;
     }
 
     public MyHashTable(int M) {
