@@ -37,18 +37,32 @@ public class MyHashTable<K, V> {
 
     public void put(K key, V value) {
         int index = hash(key);
-        HashNode<K, V> node = chainArray[index];
-        while (node != null) {
-            if (node.key.equals(key)) {
-                node.value = value;
-                return;
-            }
-            node = node.next;
+        HashNode<K, V> node = new HashNode<K, V>(key, value);
+
+        // If the chain at the computed index is empty, add the new node as the head of the chain
+        if (chainArray[index] == null) {
+            chainArray[index] = node;
+            size++;
         }
-        HashNode<K, V> newNode = new HashNode<>(key, value);
-        newNode.next = chainArray[index];
-        chainArray[index] = newNode;
-        size++;
+        // Otherwise, append the new node to the end of the chain
+        else {
+            HashNode<K, V> currentNode = chainArray[index];
+            while (currentNode.next != null) {
+                currentNode = currentNode.next;
+            }
+            currentNode.next = node;
+            size++;
+        }
+
+        // If the load factor exceeds 0.7, double the size of the array and rehash all the elements
+        if (M / size < 0.7) {
+            M *= 2;
+            HashNode<K, V>[] newChainArray = new HashNode[M];
+            for (int j = 0; j < chainArray.length; j++) {
+                newChainArray[j] = chainArray[j];
+            }
+            chainArray = newChainArray;
+        }
     }
 
     public V get(K key) {
