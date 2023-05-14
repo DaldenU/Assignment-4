@@ -85,7 +85,34 @@ public class MyHashTable<K, V> {
     }
 
     public V remove(K key) {
-        return null;
+        int index = hash(key);
+        // If the bucket at the hashed index is empty, the key is not in the map
+        if (chainArray[index] == null) {
+            return null;
+        } else {
+            // If the first node in the bucket matches the given key, remove it and return its value
+            HashNode<K, V> currentNode = chainArray[index];
+            if (currentNode.key.equals(key)) {
+                chainArray[index] = currentNode.next;
+                size--;
+                return currentNode.value;
+            } else {
+                // Otherwise, search the linked list for the key
+                HashNode<K, V> previousNode = currentNode;
+                currentNode = currentNode.next;
+                while (currentNode != null) {
+                    if (currentNode.key.equals(key)) {
+                        previousNode.next = currentNode.next;
+                        size--;
+                        return currentNode.value;
+                    }
+                    previousNode = currentNode;
+                    currentNode = currentNode.next;
+                }
+                // Key was not found in the linked list
+                return null;
+            }
+        }
     }
 
     public boolean contains(V value) {
