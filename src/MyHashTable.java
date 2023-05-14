@@ -137,6 +137,22 @@ public class MyHashTable<K, V> {
     }
 
     public K getKey(V value) {
+        for (int i = 0; i < chainArray.length; i++) {
+            if (chainArray[i] == null) {
+                continue;
+            }
+            if (chainArray[i].value.equals(value)) {
+                return chainArray[i].key;
+            }
+            HashNode<K, V> currentNode = chainArray[i];
+            while (currentNode != null) {
+                if (currentNode.value.equals(value)) {
+                    return currentNode.key;
+                }
+                currentNode = currentNode.next;
+            }
+        }
+        // Value was not found in any of the nodes
         return null;
     }
 }
