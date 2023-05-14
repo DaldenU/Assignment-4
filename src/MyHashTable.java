@@ -116,7 +116,24 @@ public class MyHashTable<K, V> {
     }
 
     public boolean contains(V value) {
-        return true;
+        for (int i = 0; i < chainArray.length; i++) {
+            if (chainArray[i] == null) {
+                continue;
+            }
+            HashNode<K, V> currentNode = chainArray[i];
+            if (currentNode.value.equals(value)) {
+                return true;
+            } else {
+                while (currentNode.next != null) {
+                    if (currentNode.value.equals(value)) {
+                        return true;
+                    }
+                    currentNode = currentNode.next;
+                }
+            }
+        }
+        // Value was not found in any of the buckets
+        return false;
     }
 
     public K getKey(V value) {
