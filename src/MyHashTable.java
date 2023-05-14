@@ -176,4 +176,9 @@ public class MyHashTable<K, V> {
         }
         return size;
     }
+
+    public int getCapacity() {
+        // Return the length of the chainArray
+        return chainArray.length;
+    }
 }
