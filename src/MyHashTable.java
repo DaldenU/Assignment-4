@@ -160,4 +160,20 @@ public class MyHashTable<K, V> {
         // Value was not found in any of the nodes
         return null;
     }
+
+    public int getBucketSize(int index) {
+        // Check that the index is valid
+        if (index < 0 || index >= chainArray.length) {
+            throw new IllegalArgumentException("Invalid index");
+        }
+
+        // Traverse the chain at the specified index and count the number of nodes
+        int size = 0;
+        HashNode<K, V> currentNode = chainArray[index];
+        while (currentNode != null) {
+            size++;
+            currentNode = currentNode.next;
+        }
+        return size;
+    }
 }
